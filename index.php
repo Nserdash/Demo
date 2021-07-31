@@ -1,23 +1,27 @@
 <?php
-
-use Nik\Htdocs\Connection\Connection;
-use Nik\Htdocs\Helpers\QueryBuilder;
-
 require __DIR__ . '/vendor/autoload.php';
 
-$query = new QueryBuilder();
+use Nik\Htdocs\Helpers\QueryBuilder;
+use Nik\Htdocs\Helpers\Render;
+use Nik\Htdocs\Routes\Router;
+use Nik\Htdocs\Controllers\AuthController;
 
-//$query->insert('users',['password' => '122223', 'login' => 'Имя']);
+Router::route('/', function(){  
+  $query = new QueryBuilder;
+  $users = $query->selectAll('users');
+  return Render::view('main',['users' => $users]);
+});
 
-//$query->delete('users');
+Router::route('new', function(){
+  print 'new станица';
+});
+  
+Router::route('/auth', function(){
+  $auth = new AuthController;
+  $auth->register();    
+  echo 123;
+});
+  
+Router::execute($_SERVER['REQUEST_URI']);
 
-//$query->update('users',['password' => '1111', 'login' => 'ser'], 11);
-
-//$result = $query->selectAll('users');
-
-$id = 11; 
-$result = $query->selectWhere('users',"id = $id");
-
-foreach($result as $res) {
-    echo $res->login;
-}
+?>
