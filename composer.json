@@ -1,0 +1,19 @@
+{
+    "name": "nik/htdocs",
+    "license": "GPL-3.0-only",
+    "autoload": {
+        "psr-4": {
+            "Nik\\Htdocs\\": "src/",
+            "Nik\\Htdocs\\Helpers\\": "src/Helpers",
+            "Nik\\Htdocs\\Connection\\": "src/Connection",
+            "Nik\\Htdocs\\Interfaces\\": "src/Interfaces"            
+        }
+    },
+    "authors": [
+        {
+            "name": "Nikita",
+            "email": "serdashenko@mail.ru"
+        }
+    ],
+    "require": {}
+}
