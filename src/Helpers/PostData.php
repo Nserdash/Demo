@@ -16,4 +16,8 @@ class PostData
         return $add;    
     }
     
+    public static function input($name) {
+        $post = $_POST[$name];
+        return $post;
+    }
 }
