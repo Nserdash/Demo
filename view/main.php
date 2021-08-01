@@ -9,8 +9,16 @@
 <body>
     <?php 
     foreach($users as $user) {
-        echo $user->login.'<br>';
+        echo $user->login.'<br>';        
+        echo $user->password.'<br><br>';
     }
     ?>
+
+    <form action = "/reg" method = "post">
+    <input name = "login">
+    <input name = "password">
+    <input name = "id" value = "10">
+    <input type = "submit" name = "123">
+    </form>
 </body>
 </html>

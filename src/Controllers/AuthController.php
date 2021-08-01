@@ -1,7 +1,7 @@
 <?php
 
 namespace Nik\Htdocs\Controllers;
-use Nik\Htdocs\Helpers\PostData;
+use Nik\Htdocs\Helpers\Request;
 use Nik\Htdocs\Helpers\QueryBuilder;
 
 class AuthController
@@ -9,6 +9,6 @@ class AuthController
     public function register() 
     {   
         $query = new QueryBuilder;
-        $query->insert('users', PostData::all());        
+        $query->update('users', Request::all(["id"]),Request::one('id'));        
     }
 }

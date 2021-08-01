@@ -3,9 +3,9 @@
 namespace Nik\Htdocs\Helpers;
 use PDO;
 use Nik\Htdocs\Connection\Connection;
-use Nik\Htdocs\Interfaces\Query;
+use Nik\Htdocs\Interfaces\QueryInterface;
 
-class QueryBuilder implements Query
+class QueryBuilder implements QueryInterface
 {
 
     private $db;
@@ -33,15 +33,18 @@ class QueryBuilder implements Query
     {       
         $keys = "" ;
         $allvalues = "";
+        $params = "";
         $counter = 0;
 
         foreach($values as $key => $value) {
             $counter++;
-            ($counter != count($values)) ? $keys .= $key.',' : $keys .= $key;
-            ($counter != count($values)) ? $allvalues .= "'".$value."'," : $allvalues .= "'".$value."'";            
+            ($counter != count($values)) ? $keys .= $key.',' : $keys .= $key;        
+            ($counter != count($values)) ? $params .= '?, ' :  $params .= '?';
+            ($key == 'password') ? $data[] = md5($value) : $data[] = $value;
         }
-                
-        $this->db->query("insert into $table ($keys) values ($allvalues)");                        
+
+        $this->db->prepare("insert into $table ($keys) values ($params)")->execute($data);
+
     }
 
     public function delete($table, $id = NULL) 
@@ -58,10 +61,11 @@ class QueryBuilder implements Query
 
         foreach($values as $key => $value) {
             $counter++;
-            ($counter != count($values)) ? $allvalues .= $key."='".$value."', " : $allvalues .= $key."='".$value."'";            
+            ($counter != count($values)) ? $allvalues .= $key."=?," : $allvalues .= $key."=?";   
+            ($key == 'password') ? $data[] = md5($value) : $data[] = $value;                     
         }
-        
-        $this->db->query("update $table set $allvalues where id = $id");                        
+                        
+        $this->db->prepare("update $table set $allvalues where id = $id")->execute($data);                      
     }
 
     public function customQuery(string $query) 

@@ -13,7 +13,7 @@ Router::route('new', function(){
 print 'new станица';
 });
 
-Router::route('/auth', function(){
+Router::route('/reg', function(){
 $auth = new AuthController;
 $auth->register();      
 });

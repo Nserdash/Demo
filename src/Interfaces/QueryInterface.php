@@ -2,7 +2,7 @@
 
 namespace Nik\Htdocs\Interfaces;
 
-interface Query
+interface QueryInterface
 {
     public function selectAll($table);
     public function selectWhere($table, $where);
