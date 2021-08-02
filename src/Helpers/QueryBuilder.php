@@ -9,6 +9,7 @@ class QueryBuilder implements QueryInterface
 {
 
     private $db;
+    private static $querys = array();
 
     public function __construct()
     {
@@ -22,11 +23,10 @@ class QueryBuilder implements QueryInterface
         return $result;
     }
 
-    public function selectWhere($table, $where) 
+    public function select($table, $columns) 
     {           
-        $statement = $this->db->query("Select * from $table where $where");
-        $result = $statement->fetchAll(PDO::FETCH_OBJ);
-        return $result;
+        self::$querys["query"] = "Select $columns from $table";
+        return new QueryBuilder;        
     }
 
     public function insert($table, $values) 
@@ -53,7 +53,7 @@ class QueryBuilder implements QueryInterface
         
     }
 
-    public function update($table, $values, $id) 
+    public function update($table, $values) 
     {       
         $keys = "" ;
         $allvalues = "";
@@ -65,13 +65,28 @@ class QueryBuilder implements QueryInterface
             ($key == 'password') ? $data[] = md5($value) : $data[] = $value;                     
         }
                         
-        $this->db->prepare("update $table set $allvalues where id = $id")->execute($data);                      
+        self::$querys["query"] = "update $table set $allvalues";
+        self::$querys["data"] = $data;         
+        return new QueryBuilder;        
     }
 
-    public function customQuery(string $query) 
+    public function where($column,$operator,$value) {
+        self::$querys["query"] = self::$querys["query"]." where ".$column.$operator.$value;
+        return new QueryBuilder;
+    }    
+
+    public function get() {
+        if(strtok(mb_strtolower(self::$querys["query"]), " ")=="select") {
+            return $result = $this->db->query(self::$querys["query"])->fetchAll(PDO::FETCH_OBJ);                  
+        } else {
+            $this->db->prepare(self::$querys["query"])->execute(self::$querys["data"]);    
+        }                
+    }
+
+    public function customQuery($query) 
     {   
         $statement = $this->db->query($query);
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll(PDO::FETCH_OBJ);
         return $result;
     }
 

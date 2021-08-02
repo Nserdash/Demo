@@ -10,7 +10,7 @@ class UsersController
     public function allData() 
     {
         $query = new QueryBuilder;
-        $users = $query->selectAll('users');
+        $users = $query->customQuery("Select * from users");
         return Render::view('main',['users' => $users]);
     
     }

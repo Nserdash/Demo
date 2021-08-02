@@ -6,37 +6,25 @@ use Nik\Htdocs\Interfaces\RequestInterface;
 class Request implements RequestInterface
 {
 
-    public static function all($exceptions = NULL)
+    public static function all()
     {       
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             array_pop($_POST);
-
-            if($exceptions) {
-    
-                foreach ($_POST as $key => $value) {                
-                    if(!in_array($key, $exceptions)) {
-                        $add[$key] = $value;
-                    }
-                }                
-    
-            } else {
                 
-                foreach ($_POST as $key => $value) {
-                    $add[$key] = $value;
-                }    
-        
-            }
-    
+            foreach ($_POST as $key => $value) {
+                $data[$key] = $value;
+            }    
+            
         } elseif($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             foreach ($_GET as $key => $value) {                                
-                $add[$key] = $value;                
+                $data[$key] = $value;                
             }                
         
         }
                 
-        return $add;    
+        return $data;    
     }
     
     public static function one($name) {
