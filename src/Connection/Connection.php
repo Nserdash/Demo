@@ -6,6 +6,7 @@ use PDO;
 class Connection {
 	
 	public static function make() {
-        return new PDO("mysql:host=localhost;dbname=HelpDesc", 'root', 'ger1976ser1999');
+        $dns = (include __DIR__ .'/config.php') ['dns'];
+        return new PDO('mysql:host='. $dns['host'] . ';dbname=' . $dns['dbname'], $dns['user'], $dns['password']);
     }
 }
