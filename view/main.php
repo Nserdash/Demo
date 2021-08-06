@@ -7,18 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <?php 
+    <table>
+        <thead>
+            <th>Логин</th>
+            <th>Пароль</th>            
+        </thead>
+    <?php     
+    echo (isset($error)) ? $error : "";
     foreach($users as $user) {
-        echo $user->login.'<br>';        
-        echo $user->password.'<br><br>';
+        echo $user->login;
     }
     ?>
+    </table>
 
     <form action = "/reg" method = "post">
     <input name = "login">
-    <input name = "password">
-    <input name = "id" value = "10">
+    <input name = "password">    
     <input type = "submit" name = "123">
     </form>
+
 </body>
 </html>

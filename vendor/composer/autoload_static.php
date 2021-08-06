@@ -11,6 +11,8 @@ class ComposerStaticInit419502837398da2b89d811c6cba21237
         array (
             'Nik\\Htdocs\\Interfaces\\' => 22,
             'Nik\\Htdocs\\Helpers\\' => 19,
+            'Nik\\Htdocs\\Controllers\\Auth\\' => 28,
+            'Nik\\Htdocs\\Controllers\\' => 23,
             'Nik\\Htdocs\\Connection\\' => 22,
             'Nik\\Htdocs\\' => 11,
         ),
@@ -24,6 +26,14 @@ class ComposerStaticInit419502837398da2b89d811c6cba21237
         'Nik\\Htdocs\\Helpers\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/Helpers',
+        ),
+        'Nik\\Htdocs\\Controllers\\Auth\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Controllers/Auth',
+        ),
+        'Nik\\Htdocs\\Controllers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Controllers',
         ),
         'Nik\\Htdocs\\Connection\\' => 
         array (

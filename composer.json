@@ -7,7 +7,8 @@
             "Nik\\Htdocs\\Helpers\\": "src/Helpers",
             "Nik\\Htdocs\\Connection\\": "src/Connection",
             "Nik\\Htdocs\\Interfaces\\": "src/Interfaces",
-            "Nik\\Htdocs\\Controllers\\": "src/Controllers"
+            "Nik\\Htdocs\\Controllers\\": "src/Controllers",
+            "Nik\\Htdocs\\Controllers\\Auth\\": "src/Controllers/Auth"
         }
     },
     "authors": [

@@ -8,6 +8,8 @@ $baseDir = dirname($vendorDir);
 return array(
     'Nik\\Htdocs\\Interfaces\\' => array($baseDir . '/src/Interfaces'),
     'Nik\\Htdocs\\Helpers\\' => array($baseDir . '/src/Helpers'),
+    'Nik\\Htdocs\\Controllers\\Auth\\' => array($baseDir . '/src/Controllers/Auth'),
+    'Nik\\Htdocs\\Controllers\\' => array($baseDir . '/src/Controllers'),
     'Nik\\Htdocs\\Connection\\' => array($baseDir . '/src/Connection'),
     'Nik\\Htdocs\\' => array($baseDir . '/src'),
 );

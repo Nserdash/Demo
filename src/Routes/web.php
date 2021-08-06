@@ -1,7 +1,7 @@
 <?php
 use Nik\Htdocs\Routes\Router;
 use Nik\Htdocs\Helpers\QueryBuilder;
-use Nik\Htdocs\Controllers\AuthController;
+use Nik\Htdocs\Controllers\Auth\RegController;
 use Nik\Htdocs\Controllers\UsersController;
 
 Router::route('/', function(){ 
@@ -14,7 +14,7 @@ print 'new станица';
 });
 
 Router::route('/reg', function(){
-$auth = new AuthController;
+$auth = new RegController;
 $auth->register();      
 });
 

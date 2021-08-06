@@ -17,10 +17,9 @@ class QueryBuilder implements QueryInterface
     }
 
     public function selectAll($table) 
-    {
-        $statement = $this->db->query("Select * from $table");
-        $result = $statement->fetchAll(PDO::FETCH_OBJ);
-        return $result;
+    {        
+        $stmt = $this->db->query("Select * from $table");        
+        return $stmt->fetchAll(PDO::FETCH_OBJ);        
     }
 
     public function select($table, $columns) 
@@ -29,7 +28,7 @@ class QueryBuilder implements QueryInterface
         return new QueryBuilder;        
     }
 
-    public function insert($table, $values) 
+    public function insert($table, array $values) 
     {       
         $keys = "" ;
         $allvalues = "";
@@ -40,10 +39,12 @@ class QueryBuilder implements QueryInterface
             $counter++;
             ($counter != count($values)) ? $keys .= $key.',' : $keys .= $key;        
             ($counter != count($values)) ? $params .= '?, ' :  $params .= '?';
-            ($key == 'password') ? $data[] = md5($value) : $data[] = $value;
+            $data[] = $value;
         }
 
-        $this->db->prepare("insert into $table ($keys) values ($params)")->execute($data);
+        self::$querys["query"] = "insert into $table ($keys) values ($params)";
+        self::$querys["data"] = $data;
+        return new QueryBuilder;
 
     }
 
@@ -53,7 +54,7 @@ class QueryBuilder implements QueryInterface
         
     }
 
-    public function update($table, $values) 
+    public function update($table, array $values) 
     {       
         $keys = "" ;
         $allvalues = "";
@@ -62,7 +63,7 @@ class QueryBuilder implements QueryInterface
         foreach($values as $key => $value) {
             $counter++;
             ($counter != count($values)) ? $allvalues .= $key."=?," : $allvalues .= $key."=?";   
-            ($key == 'password') ? $data[] = md5($value) : $data[] = $value;                     
+            $data[] = $value;                     
         }
                         
         self::$querys["query"] = "update $table set $allvalues";
@@ -70,24 +71,24 @@ class QueryBuilder implements QueryInterface
         return new QueryBuilder;        
     }
 
-    public function where($column,$operator,$value) {
-        self::$querys["query"] = self::$querys["query"]." where ".$column.$operator.$value;
+    public function where($column,$operator,$value) {                                       //переделать
+        self::$querys["query"] = self::$querys["query"]." where ".$column.$operator."?";
+        $data[] = $value;                                                                   
+        self::$querys["data"] = $data;         
         return new QueryBuilder;
     }    
 
-    public function get() {
-        if(strtok(mb_strtolower(self::$querys["query"]), " ")=="select") {
-            return $result = $this->db->query(self::$querys["query"])->fetchAll(PDO::FETCH_OBJ);                  
-        } else {
-            $this->db->prepare(self::$querys["query"])->execute(self::$querys["data"]);    
-        }                
+    public function get() {                
+        $stmt = $this->db->prepare(self::$querys["query"]);
+        $stmt->execute(self::$querys["data"]);                     
+        return $stmt->fetchAll(PDO::FETCH_OBJ);;
     }
 
-    public function customQuery($query) 
-    {   
-        $statement = $this->db->query($query);
-        $result = $statement->fetchAll(PDO::FETCH_OBJ);
-        return $result;
+    public function customQuery($query, array $data) 
+    {       
+        $stmt = $this->db->prepare($query);        
+        $stmt->execute($data);               
+        return $stmt;
     }
 
 }
