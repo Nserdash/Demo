@@ -6,16 +6,19 @@ use Nik\Htdocs\Controllers\Auth\AuthController;
 use Nik\Htdocs\Controllers\UsersController;
 use Nik\Htdocs\Helpers\Render;
 
-if(isset($_SESSION['login'])) {
+Router::route('/', function(){ 
 
-    Router::route('/', function(){ 
+    if(isset($_SESSION['login'])) {
         $user = new UsersController; 
         $user->allData();
-        });
-    
-}
+    } else {
+        Render::view('login');
+    }
 
-Router::route('/new', function(){
+});
+    
+
+Router::route('/login', function(){
 $auth = new AuthController;
 $auth->auth();          
 });
