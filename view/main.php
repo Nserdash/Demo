@@ -19,12 +19,6 @@
     }
     ?>
     </table>
-
-    <form action = "/reg" method = "post">
-    <input name = "login">
-    <input name = "password">    
-    <input type = "submit" name = "123">
-    </form>
-
+    <a href = "/exit">Выход</a>
 </body>
 </html>

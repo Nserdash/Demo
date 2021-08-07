@@ -5,7 +5,7 @@ namespace Nik\Htdocs\Interfaces;
 interface QueryInterface
 {
     public function selectAll($table);
-    public function select($table, $columns);
+    public function select($table, $columns = "*");
     public function insert($table, array $values);
     public function update($table, array $values);
     public function delete($table, $id = NULL);

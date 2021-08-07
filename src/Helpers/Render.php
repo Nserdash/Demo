@@ -7,7 +7,7 @@ class Render
 
     public static function view($__view, $__data = NULL)
     {       
-        extract($__data);
+        if($__data) extract($__data);
 
         ob_start();
         

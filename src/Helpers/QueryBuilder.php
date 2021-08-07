@@ -10,6 +10,7 @@ class QueryBuilder implements QueryInterface
 
     private $db;
     private static $querys = array();
+    
 
     public function __construct()
     {
@@ -22,7 +23,7 @@ class QueryBuilder implements QueryInterface
         return $stmt->fetchAll(PDO::FETCH_OBJ);        
     }
 
-    public function select($table, $columns) 
+    public function select($table, $columns = "*") 
     {           
         self::$querys["query"] = "Select $columns from $table";
         return new QueryBuilder;        
@@ -71,15 +72,21 @@ class QueryBuilder implements QueryInterface
         return new QueryBuilder;        
     }
 
-    public function where($column,$operator,$value) {                                       //переделать
-        self::$querys["query"] = self::$querys["query"]." where ".$column.$operator."?";
-        $data[] = $value;                                                                   
-        self::$querys["data"] = $data;         
+    public function where($column,$operator,$value) {    //
+
+        if(strpos(self::$querys["query"], 'where')) {
+            self::$querys["query"] = self::$querys["query"]." and ".$column.$operator."?";                                                                               
+            array_push(self::$querys["data"], $value);                         
+        } else {
+            self::$querys["query"] = self::$querys["query"]." where ".$column.$operator."?";            
+            self::$querys["data"][] = $value;                         
+        }                       
+
         return new QueryBuilder;
     }    
 
     public function get() {                
-        $stmt = $this->db->prepare(self::$querys["query"]);
+        $stmt = $this->db->prepare(self::$querys["query"]);        
         $stmt->execute(self::$querys["data"]);                     
         return $stmt->fetchAll(PDO::FETCH_OBJ);;
     }
